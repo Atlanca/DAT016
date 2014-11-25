@@ -1,0 +1,56 @@
+; Drilltest2.s12
+;#define		Simulator
+	USE 	Labdefs.s12
+	Org	$1000
+
+start:	LDAA	#0
+riktning:
+	ADDA	#2
+	STAA	DrillControl
+	JSR	TillRefPos
+	JSR 	Borra
+	JSR	Vrid1Steg
+	JSR	Borra
+	JSR	Vrid1Steg
+	JSR	Borra
+	JSR	Vrid1Steg
+	JSR	Vrid1Steg
+	JSR	Vrid1Steg
+	JSR	Borra
+	JSR	GeLarm
+stopp:	BRA	stopp
+
+Vrid1Steg: 
+	ORAA	#1
+	STAA	DrillControl
+	ANDA	#254
+	STAA	DrillControl
+	RTS
+TillRefPos:
+	LDAB	DrillStatus
+	BITB	#1 
+	BNE	return	
+	JSR	Vrid1Steg
+	BRA	TillRefPos
+return:
+	RTS
+Borra:
+	ORAA	#4
+	STAA	DrillControl
+	ORAA	#8
+	STAA	DrillControl
+LasStatus:
+	LDAB	DrillStatus
+	BITB	#4
+	BEQ	LasStatus
+	ANDA	#247
+	STAA	DrillControl
+	ANDA	#251
+	STAA	DrillControl
+	RTS
+GeLarm:
+	ADDA	#16
+	STAA	DrillControl
+	RTS
+	
+	USE	Delay2.asm

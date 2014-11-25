@@ -1,0 +1,32 @@
+	ORG 	$1000
+	LDX	#tabell
+start:	JSR 	DisplayML15
+	BRA 	start
+;
+tabell:	FCB	1,2,3,4,5,6
+
+DisplayML15:
+	LDAB	#1
+	STAB	$9C2
+	LDAB	#$D0
+	STAB	$9C3
+	LDAB	#0
+	STAB	$9C2
+	CLRB
+	LDAA	#0
+NEJ:
+	CMPA	#6
+	BEQ	JA
+	LDAB	A,X
+	STAB	$9C3
+	INCA
+	CLRB
+	BRA	NEJ
+	
+JA:	
+	LDAB	#0
+	STAB	$9C3
+	STAB	$9C3
+	CLRB
+	LDS 	#$3C7E
+	RTS	

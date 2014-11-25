@@ -1,0 +1,31 @@
+	ORG	$1000
+start:	JSR	GetKbdML15
+	CMPB	#$FF
+	;BNE 	start
+	NOP
+	BRA	start
+
+GetKbdML15:
+	JSR	CheckKbd_First
+	CMPB	#$FF
+	BEQ	GetKbdML15
+	RTS
+	
+	
+CheckKbd_First:
+	LDAB	$9C0
+	BITB	#$80
+	BEQ	DAV_zero
+	LDAB	#$FF
+	BRA	AVSLUTA
+DAV_zero:
+	PSHB	
+Check_Kbd_Second:
+	LDAB	$9C0
+	BITB	#$80
+	BNE	Check_Kbd_Second
+	PULB
+AVSLUTA:
+	RTS
+	
+	
