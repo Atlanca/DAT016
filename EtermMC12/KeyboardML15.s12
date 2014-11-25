@@ -1,14 +1,7 @@
-	ORG	$1000
-start:	JSR	GetKbdML15
-	CMPB	#$FF
-	;BNE 	start
-	NOP
-	BRA	start
-
-GetKbdML15:
+CheckKbdML15:
 	JSR	CheckKbd_First
 	CMPB	#$FF
-	BEQ	GetKbdML15
+	BEQ	CheckKbdML15
 	RTS
 	
 	

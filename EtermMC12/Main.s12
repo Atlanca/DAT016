@@ -1,10 +1,12 @@
-	USE	Labdefs.s12
 	ORG	$1000
+	USE	Labdefs.s12
 main:	
 
 main_loop:
 
-	JSR 	GetKbdML15
+	JSR 	CheckKbdML15
+	STAB	$700
+	NOP
 	JSR 	Command
 	BRA 	main_loop
 	
