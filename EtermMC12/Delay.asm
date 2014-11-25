@@ -1,7 +1,4 @@
-		ORG	$1000
-DelayConst:	EQU	10
-	
-Start:		CLRA
+; USES REG. X & Y
 DELAY:		LDX	#DelayConst
 NEXT:		LEAX	-1,X
 		LDY	#100
@@ -11,9 +8,8 @@ NEXT2:
 		BNE	NEXT2		
 		CPX	#0
 		BNE	NEXT		
-		COMA
-		STAA	$400
 		BRA	DELAY
 		
 		LEAX	-1,X
+		RTS
 		
