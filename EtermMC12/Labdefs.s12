@@ -1,6 +1,4 @@
 ; Adress till omkopplare och display
-DCShadow	RMB 	1
-
 Dipswitch	EQU	$0600
 HexDisplay	EQU	$0700
 

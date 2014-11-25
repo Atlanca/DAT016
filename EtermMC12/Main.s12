@@ -50,3 +50,5 @@ SUB7:
 	RTS
 	
 	USE	KeyboardML15.s12
+	
+DCShadow	RMB 	1
