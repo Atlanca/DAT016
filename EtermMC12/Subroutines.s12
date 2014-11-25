@@ -1,6 +1,6 @@
+;; B - tal som anger vilken bit som ska nollställas
 Outzero:
 	LDAA	#1
-	LDAB	InPort
 	BITB	#7
 	BEQ	ifBZero
 	BITB	#%11111000
@@ -9,17 +9,17 @@ loop2:
 	ASLA
 	DECB
 	BNE	loop2
-ifBZero:	ANDA	DCShadow
+ifBZero:	
 	COMA
+	ANDA	DCShadow
 	STAA	DrillControl
 	STAA	DCShadow
 
 return:	RTS	
 
-
+;; B - tal som anger vilken bit som ska ettställas
 Outone:
 	LDAA	#1
-	LDAB	InPort
 	BITB	#%11111000
 	BNE	returnOutone
 	BITB	#7
@@ -34,3 +34,4 @@ ifBZero2:
 	STAA	DCShadow
 returnOutone: 
 	RTS 
+	
