@@ -20,10 +20,10 @@ DrillStatus	EQU	$600
 
 #ifdef 	SIMULATOR
 #ifdef	RUNFAST	
-DelayConst	EQU 	7
+DelayConst	EQU 	5
 #else
-DelayConst 	EQU	7
+DelayConst 	EQU	5
 #endif
 #else
-DelayConst	EQU 	7
+DelayConst	EQU 	5
 #endif

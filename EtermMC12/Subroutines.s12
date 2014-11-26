@@ -142,13 +142,15 @@ StepEnd
 
 ;Subrutin drilldowntest
 DrillDownTest:
-	LDAB	20		;20*0.25 = 5
+	LDAB	#20		;20*0.25 = 5
+DDT_DelayLoop:
 	JSR	DELAY
 	LDAA	DrillStatus
 	BITA	#4
 	BNE	DDT_success
 	DECB
-	BNE	DrillDownTest
+	CMPB	#0
+	BNE	DDT_DelayLoop
 	LDAB	#2
 	JSR 	Alarm		;give alarm if drill not at bottom
 	LDAB	#0		
@@ -157,3 +159,10 @@ DrillDownTest:
 DDT_success:
 	LDAB 	#1
 	RTS  
+	
+;Subroutine DrillHole
+DrillHole:
+	JSR 	DrillDown
+	JSR	DrillDownTest
+	JSR	DrillUp
+	RTS 
