@@ -67,8 +67,6 @@ MotorStart_loop:
 	DECB
 	CMPB	#0
 	BNE	MotorStart_loop
-	
-	;MOVB	#0,OutPort
 MotorStart_end:
 	PULB
 	RTS	
@@ -79,20 +77,35 @@ MotorStop:
 	LDAB	#2
 	JSR	Outzero
 	PULB
-	;MOVB	#1,OutPort
 	RTS
-
+	
 DrillDown:
 	PSHB
 	LDAB	#3
 	JSR	Outone
 	PULB
-	MOVB	#2,OutPort
 	RTS 
 DrillUp:
 	PSHB
 	LDAB 	#3
 	JSR	Outzero
 	PULB
-	MOVB 	#3,OutPort
 	RTS
+Alarm:
+	CMPB	#0
+	BEQ	AlarmExit
+	
+	PSHB
+	LDAB	#4
+	JSR	Outone
+	PULB
+	LDAA	#4
+AlarmDelayLoop:
+	JSR	DELAY
+	DECA
+	BNE	AlarmDelayLoop
+	
+	JSR	Outzero
+	
+AlarmExit:	
+	RTS 
