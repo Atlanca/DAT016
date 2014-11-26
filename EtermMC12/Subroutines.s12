@@ -46,9 +46,9 @@ returnOutone:
 ; if not already started
 MotorStart:
 	LDAB	DCShadow
-	BITB	#4
+	BITB	#4		; bit 3 (engine)
 	BNE	CommandExit	; return
-	LDAB	#2		; start drill
+	LDAB	#2		; bit 2 (start drill)
 	JSR	Outone
 	
 	LDAB	#4	; 4 * 250ms
