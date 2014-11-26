@@ -163,6 +163,7 @@ DDT_success:
 	
 
 ;Subroutine DrillHole
+;Return B=1 if success, B=0 otherwise
 DrillHole:
 	JSR 	DrillDown
 	JSR	DrillDownTest
@@ -211,18 +212,21 @@ Auto:
 	JSR	RefPos
 	BITB	#$FF
 	BEQ	Auto_Exit
-ContinueDrilling:
 	JSR	MotorStart
-	
-	LDAB	,X
-	CMPB	#$FF
+	LDX	#Pattern	; Load pointer to the pattern array of 
+
+ContinueDrilling:
+	LDAB	,X		; Load current value
 	LEAX	1,X		
+	CMPB	#$FF		; Determens the end of the pattern
 	BEQ	Auto_Exit
+	
 	JSR	Nstep
 	BITB	#$FF		; Exit if failed to move
 	BEQ	Auto_Exit
+	
 	JSR	DrillHole
-	BITB	#$FF
+	BITB	#$FF		; Continue if drill succeded
 	BNE	ContinueDrilling
 Auto_Exit
 	JSR	MotorStop
