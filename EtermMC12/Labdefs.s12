@@ -5,6 +5,8 @@ HexDisplay	EQU	$0700
 InPort		EQU	$0600
 OutPort		EQU	$0400
 
+Keyboard	EQU	$09C0
+
 ; Adress till borrmaskinens styrregister
 DrillControl	EQU	$0400
 

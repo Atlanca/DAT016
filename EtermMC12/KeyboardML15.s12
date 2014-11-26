@@ -6,15 +6,15 @@ CheckKbdML15:
 	
 	
 CheckKbd_First:
-	LDAB	$9C0
+	LDAB	Keyboard
 	BITB	#$80
-	BEQ	DAV_zero
+	BEQ	DAV_zero	;branch if key down
 	LDAB	#$FF
 	BRA	AVSLUTA
 DAV_zero:
 	PSHB	
-Check_Kbd_Second:
-	LDAB	$9C0
+Check_Kbd_Second:		;wait until key release
+	LDAB	Keyboard
 	BITB	#$80
 	BNE	Check_Kbd_Second
 	PULB
