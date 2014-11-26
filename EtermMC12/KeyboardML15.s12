@@ -16,7 +16,7 @@ DAV_zero:
 Check_Kbd_Second:		;wait until key release
 	LDAB	Keyboard
 	BITB	#$80
-	BNE	Check_Kbd_Second
+	BEQ	Check_Kbd_Second
 	PULB
 AVSLUTA:
 	RTS
