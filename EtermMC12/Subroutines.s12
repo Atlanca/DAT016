@@ -215,11 +215,11 @@ ContinueDrilling:
 	JSR	MotorStart
 	
 	LDAB	,X
-	INCX
 	CMPB	#$FF
+	LEAX	1,X		
 	BEQ	Auto_Exit
-	JSR	NStep
-	BITB	#$FF
+	JSR	Nstep
+	BITB	#$FF		; Exit if failed to move
 	BEQ	Auto_Exit
 	JSR	DrillHole
 	BITB	#$FF
