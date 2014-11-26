@@ -50,5 +50,7 @@ SUB7:
 	RTS
 	
 	USE	KeyboardML15.s12
+	USE	Subroutines.s12
+	USE	Delay.s12
 	
 DCShadow	RMB 	1
