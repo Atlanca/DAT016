@@ -71,4 +71,5 @@ SUB7:
 	USE	Delay.asm
 	
 DCShadow	RMB 	1
+Pattern:	FCB	0,1,1,1,1,1,1,1,2,1,5,2,2,2,2,4,4,3,8,2,$FF
 

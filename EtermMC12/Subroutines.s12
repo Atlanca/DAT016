@@ -184,4 +184,27 @@ RefPos_Failure:
 RefPos_Success:
 	LDAB	#1
 	RTS
+	
+	
+;Subroutine Auto
+Auto:
+	JSR	RefPos
+	BITB	#$FF
+	BEQ	Auto_Exit
+ContinueDrilling:
+	JSR	MotorStart
+	
+	LDAB	,X
+	INCX
+	CMPB	#$FF
+	BEQ	Auto_Exit
+	JSR	NStep
+	BITB	#$FF
+	BEQ	Auto_Exit
+	JSR	DrillHole
+	BITB	#$FF
+	BNE	ContinueDrilling
+Auto_Exit
+	JSR	MotorStop
+	RTS
 
