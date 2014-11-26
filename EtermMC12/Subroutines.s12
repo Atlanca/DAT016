@@ -120,7 +120,7 @@ AlarmExit:
 	
 ; Step one step. Only if drill is on top
 ; Return B 1 if steped, 0 if it did not step
-; A may change
+; A and B may change
 Step:	LDAA	DrillStatus
 	BITA	#2		; top level
 	BEQ	StepFailure
@@ -131,6 +131,7 @@ StepStart:
 	JSR	Outzero		; reset pulse
 	JSR	Outone		; do pulse
 	
+	JSR	DELAY
 	LDAB	#1		; success indicator
 	BRA	StepEnd
 StepFailure:	
@@ -160,9 +161,27 @@ DDT_success:
 	LDAB 	#1
 	RTS  
 	
+
 ;Subroutine DrillHole
 DrillHole:
 	JSR 	DrillDown
 	JSR	DrillDownTest
 	JSR	DrillUp
 	RTS 
+	
+; Move to reference point
+; Returns B = 1 if success, B = 0 otherwise
+; A and B may change
+RefPos:	LDAA	DrillStatus
+	BITA	#1		; bit 0, reference point
+	BNE	RefPos_Success
+	JSR	Step		; result in B
+	CMPB	#0
+	BNE	RefPos		; B!=0 => continue looping, B=0 => failure
+RefPos_Failure:
+	LDAB	#0
+	RTS
+RefPos_Success:
+	LDAB	#1
+	RTS
+
