@@ -94,18 +94,25 @@ DrillUp:
 Alarm:
 	CMPB	#0
 	BEQ	AlarmExit
-	
+BeepMinusOne:
 	PSHB
 	LDAB	#4
 	JSR	Outone
-	PULB
 	LDAA	#4
-AlarmDelayLoop:
+oneAlarmDelayLoop:
 	JSR	DELAY
 	DECA
-	BNE	AlarmDelayLoop
-	
+	BNE	oneAlarmDelayLoop
+
 	JSR	Outzero
-	
+	LDAA	#2
+halfAlarmDelayLoop:
+	JSR	DELAY
+	DECA
+	BNE	halfAlarmDelayLoop
+	PULB
+	DECB
+	BNE	BeepMinusOne
+	JSR	Outzero
 AlarmExit:	
 	RTS 
