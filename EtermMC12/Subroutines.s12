@@ -173,7 +173,10 @@ DrillHole:
 ; Move B=N steps
 ; Returns B = 1 if success, B = 0 otherwise
 ; A and B may change
-Nstep:	CMPA 	#0
+Nstep:	PSHB			; Transfer B -> A
+	PULA
+Nstep_loop:	
+	CMPA 	#0
 	BEQ	Nstep_Success	; if B=0, iteration done
 	DECA
 	
