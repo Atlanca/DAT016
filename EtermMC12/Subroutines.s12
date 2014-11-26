@@ -81,7 +81,8 @@ MotorStop:
 	PULB
 	;MOVB	#1,OutPort
 	RTS
-	DrillDown:
+
+DrillDown:
 	PSHB
 	LDAB	#3
 	JSR	Outone
