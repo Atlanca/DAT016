@@ -109,3 +109,26 @@ AlarmDelayLoop:
 	
 AlarmExit:	
 	RTS 
+	
+; Step one step. Only if drill is on top
+; Return B 1 if steped, 0 if it did not step
+; A may change
+Step:	LDAA	DCShadow
+	BITA	#2		; top level
+	BEQ	StepFailure
+StepStart:
+	LDAB	#1		; direction bit
+	JSR	Outzero
+	LDAB	#0		; pulse bit
+	JSR	Outzero		; reset pulse
+	JSR	Outone		; do pulse
+	
+	LDAB	#0		; success indicator
+	BRA	StepEnd
+StepFailure:	
+	LDAB	#2		
+	JSR	Alarm		; alarm 2 times
+	LDAB	#0		; failure indicator
+StepEnd
+	RTS
+	
