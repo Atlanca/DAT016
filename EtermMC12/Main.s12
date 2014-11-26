@@ -51,6 +51,6 @@ SUB7:
 	
 	USE	KeyboardML15.s12
 	USE	Subroutines.s12
-	USE	Delay.s12
+	USE	Delay.asm
 	
 DCShadow	RMB 	1
