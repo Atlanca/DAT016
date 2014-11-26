@@ -31,7 +31,7 @@ CommandExit:
 	RTS
 	
 JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
-		FDB	Step,SUB5,SUB6,SUB7
+		FDB	Step,Alarm,SUB6,SUB7
 	
 
 	

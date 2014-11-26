@@ -94,26 +94,33 @@ DrillUp:
 Alarm:
 	CMPB	#0
 	BEQ	AlarmExit
-	
+BeepMinusOne:
 	PSHB
 	LDAB	#4
 	JSR	Outone
-	PULB
 	LDAA	#4
-AlarmDelayLoop:
+oneAlarmDelayLoop:
 	JSR	DELAY
 	DECA
-	BNE	AlarmDelayLoop
-	
+	BNE	oneAlarmDelayLoop
+
 	JSR	Outzero
-	
+	LDAA	#2
+halfAlarmDelayLoop:
+	JSR	DELAY
+	DECA
+	BNE	halfAlarmDelayLoop
+	PULB
+	DECB
+	BNE	BeepMinusOne
+	JSR	Outzero
 AlarmExit:	
 	RTS 
 	
 ; Step one step. Only if drill is on top
 ; Return B 1 if steped, 0 if it did not step
 ; A may change
-Step:	LDAA	DCShadow
+Step:	LDAA	DrillStatus
 	BITA	#2		; top level
 	BEQ	StepFailure
 StepStart:
@@ -123,7 +130,7 @@ StepStart:
 	JSR	Outzero		; reset pulse
 	JSR	Outone		; do pulse
 	
-	LDAB	#0		; success indicator
+	LDAB	#1		; success indicator
 	BRA	StepEnd
 StepFailure:	
 	LDAB	#2		
