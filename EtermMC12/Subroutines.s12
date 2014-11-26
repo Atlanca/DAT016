@@ -91,29 +91,30 @@ DrillUp:
 	JSR	Outzero
 	PULB
 	RTS
+;Subrutin Alarm
 Alarm:
-	CMPB	#0
-	BEQ	AlarmExit
+	CMPB	#0	
+	BEQ	AlarmExit	;Hoppa ur subrutinen om register B är 0
 BeepMinusOne:
-	PSHB
-	LDAB	#4
-	JSR	Outone
-	LDAA	#4
+	PSHB			;Spara B i stacken
+	LDAB	#4		
+	JSR	Outone		;Sätt på alarm
+	LDAA	#4		;4*0.25 = 1 sekund 
 oneAlarmDelayLoop:
-	JSR	DELAY
+	JSR	DELAY		
 	DECA
-	BNE	oneAlarmDelayLoop
+	BNE	oneAlarmDelayLoop	;Fortsätt efter att 1 sekund har gått
 
-	JSR	Outzero
-	LDAA	#2
+	JSR	Outzero		;Stäng av alarm
+	LDAA	#2		;2*0.25 = 0.5 sekunder
 halfAlarmDelayLoop:
 	JSR	DELAY
 	DECA
 	BNE	halfAlarmDelayLoop
-	PULB
-	DECB
+	PULB			;Hämta tillbaka värdet som fanns i B innan subrutinen utfördes
+	DECB			
 	BNE	BeepMinusOne
-	JSR	Outzero
+;	JSR	Outzero
 AlarmExit:	
 	RTS 
 	
@@ -138,4 +139,8 @@ StepFailure:
 	LDAB	#0		; failure indicator
 StepEnd
 	RTS
+
+;Subrutin drilldowntest
+DrillDownTest:
+
 	
