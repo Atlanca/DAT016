@@ -126,7 +126,7 @@ Step:	LDAA	DrillStatus
 	BEQ	StepFailure
 StepStart:
 	LDAB	#1		; direction bit
-	JSR	Outzero
+	JSR	Outone
 	LDAB	#0		; pulse bit
 	JSR	Outzero		; reset pulse
 	JSR	Outone		; do pulse
