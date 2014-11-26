@@ -33,26 +33,6 @@ CommandExit:
 JUMPTAB		FDB	MotorStart,SUB1,SUB2,SUB3
 		FDB	SUB4,SUB5,SUB6,SUB7
 	
-; Motor Start
-; Waits for engine to speed up for one second
-; if not already started
-MotorStart:
-	LDAB	DCShadow
-	BITB	#4
-	BNE	CommandExit	; return
-	LDAB	#2		; start drill
-	JSR	Outone
-	
-	LDAB	#4	; 4 * 250ms
-MotorStart_loop:
-	JSR	DELAY
-	DECB
-	CMPB	#0
-	BNE	MotorStart_loop
-	
-	MOVB	#0,OutPort
-	RTS
-	
 ;Motor Stop
 SUB1:
 	MOVB	#1,OutPort
