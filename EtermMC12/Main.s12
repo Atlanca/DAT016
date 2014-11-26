@@ -10,12 +10,13 @@ main_loop:
 	JSR 	Command
 	BRA 	main_loop
 	
+; Expects command id in B
 Command:
 	CMPB	#7
 	BHI	CommandExit
 	
 	LDX	#JUMPTAB
-	ASLB
+	ASLB			; *2 eftersom pekare 2 bytes
 	LDX	B,X
 	JSR	,X
 CommandExit:	
@@ -24,27 +25,42 @@ CommandExit:
 JUMPTAB		FDB	SUB0,SUB1,SUB2,SUB3
 		FDB	SUB4,SUB5,SUB6,SUB7
 	
+;Motor Start
 SUB0:
 	MOVB	#0,OutPort
 	RTS
+	
+;Motor Stop
 SUB1:
 	MOVB	#1,OutPort
 	RTS
+	
+;Drill Down
 SUB2:
 	MOVB	#2,OutPort
 	RTS
+	
+;Drill Up
 SUB3:
 	MOVB	#3,OutPort
 	RTS
+	
+;Step
 SUB4:
 	MOVB	#4,OutPort
 	RTS
+
+;Drill Hole
 SUB5:
 	MOVB	#5,OutPort
 	RTS
+	
+;Move to reference point
 SUB6:
 	MOVB	#6,OutPort
 	RTS
+	
+;Auto
 SUB7:
 	MOVB	#7,OutPort
 	RTS
@@ -54,3 +70,4 @@ SUB7:
 	USE	Delay.asm
 	
 DCShadow	RMB 	1
+
