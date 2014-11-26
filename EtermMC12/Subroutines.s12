@@ -1,3 +1,9 @@
+;; B - Byte to output
+Outbyte:
+	STAB	DCShadow
+	STAB	DrillControl
+	RTS
+
 ;; B - tal som anger vilken bit som ska nollställas
 Outzero:
 	LDAA	#1

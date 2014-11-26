@@ -1,14 +1,20 @@
 	ORG	$1000
 	USE	Labdefs.s12
 main:	
-
+	JSR	Initiate
 main_loop:
 
-	JSR 	CheckKbdML15
+	JSR 	CheckKbdML15	; loads command to B
 	STAB	$700
 	NOP
 	JSR 	Command
 	BRA 	main_loop
+	
+Initiate:
+	; Reset Drill: 
+	LDAB	#0
+	JSR	Outbyte
+	RTS
 	
 ; Expects command id in B
 Command:
