@@ -30,13 +30,10 @@ Command:
 CommandExit:	
 	RTS
 	
-JUMPTAB		FDB	MotorStart,SUB1,SUB2,SUB3
+JUMPTAB		FDB	MotorStart,MotorStop,SUB2,SUB3
 		FDB	SUB4,SUB5,SUB6,SUB7
 	
-;Motor Stop
-SUB1:
-	MOVB	#1,OutPort
-	RTS
+
 	
 ;Drill Down
 SUB2:

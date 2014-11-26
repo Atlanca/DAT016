@@ -6,6 +6,8 @@ Outbyte:
 
 ;; B - tal som anger vilken bit som ska nollställas
 Outzero:
+	PSHA
+	PSHB
 	LDAA	#1
 	BITB	#7
 	BEQ	ifBZero
@@ -20,11 +22,16 @@ ifBZero:
 	ANDA	DCShadow
 	STAA	DrillControl
 	STAA	DCShadow
-
-return:	RTS	
+	
+return:	
+	PULB
+	PSHA
+	RTS	
 
 ;; B - tal som anger vilken bit som ska ettställas
 Outone:
+	PSHA
+	PSHB
 	LDAA	#1
 	BITB	#%11111000
 	BNE	returnOutone
@@ -39,12 +46,15 @@ ifBZero2:
 	STAA	DrillControl
 	STAA	DCShadow
 returnOutone: 
+	PULB
+	PULA
 	RTS 
 	
 ; Motor Start
 ; Waits for engine to speed up for one second
 ; if not already started
 MotorStart:
+	PSHB
 	LDAB	DCShadow
 	BITB	#4		; bit 3 (engine)
 	BNE	CommandExit	; return
@@ -59,5 +69,15 @@ MotorStart_loop:
 	BNE	MotorStart_loop
 	
 	MOVB	#0,OutPort
+	PULB
 	RTS	
+	
+;Motor Stop
+MotorStop:
+	PSHB
+	LDAB	#2
+	JSR	Outzero
+	PULB
+	MOVB	#1,OutPort
+	RTS
 	
