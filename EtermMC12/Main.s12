@@ -33,39 +33,6 @@ CommandExit:
 	
 JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
 		FDB	Step,Alarm,RefPos,SUB7
-	
-
-	
-;Drill Down
-SUB2:
-	MOVB	#2,OutPort
-	RTS
-	
-;Drill Up
-SUB3:
-	MOVB	#3,OutPort
-	RTS
-	
-;Step
-SUB4:
-	MOVB	#4,OutPort
-	RTS
-
-;Drill Hole
-SUB5:
-	MOVB	#5,OutPort
-	RTS
-	
-;Move to reference point
-SUB6:
-	MOVB	#6,OutPort
-	RTS
-	
-;Auto
-SUB7:
-	MOVB	#7,OutPort
-	RTS
-	
 	USE	KeyboardML15.s12
 	USE	Subroutines.s12
 	USE	Delay.asm
