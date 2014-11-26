@@ -12,7 +12,7 @@ Outzero:
 	BITB	#7
 	BEQ	ifBZero
 	BITB	#%11111000
-	BNE	return
+	BNE	Outzero_return
 loop2:
 	ASLA
 	DECB
@@ -23,9 +23,9 @@ ifBZero:
 	STAA	DrillControl
 	STAA	DCShadow
 	
-return:	
+Outzero_return:	
 	PULB
-	PSHA
+	PULA
 	RTS	
 
 ;; B - tal som anger vilken bit som ska ettställas
@@ -57,7 +57,7 @@ MotorStart:
 	PSHB
 	LDAB	DCShadow
 	BITB	#4		; bit 3 (engine)
-	BNE	CommandExit	; return
+	BNE	MotorStart_end	; return
 	LDAB	#2		; bit 2 (start drill)
 	JSR	Outone
 	
@@ -68,7 +68,8 @@ MotorStart_loop:
 	CMPB	#0
 	BNE	MotorStart_loop
 	
-	MOVB	#0,OutPort
+	;MOVB	#0,OutPort
+MotorStart_end:
 	PULB
 	RTS	
 	
@@ -78,10 +79,9 @@ MotorStop:
 	LDAB	#2
 	JSR	Outzero
 	PULB
-	MOVB	#1,OutPort
+	;MOVB	#1,OutPort
 	RTS
-	
-DrillDown:
+	DrillDown:
 	PSHB
 	LDAB	#3
 	JSR	Outone

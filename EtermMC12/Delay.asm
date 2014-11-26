@@ -5,11 +5,9 @@ NEXT:		LEAX	-1,X
 NEXT2:
 		LEAY	-1,Y
 		CPY	#0
-		BNE	NEXT2		
+		BNE	NEXT2
+				
 		CPX	#0
-		BNE	NEXT		
-		BRA	DELAY
-		
-		LEAX	-1,X
+		BNE	NEXT
 		RTS
 		

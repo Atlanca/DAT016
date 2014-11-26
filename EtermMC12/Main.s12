@@ -7,7 +7,7 @@ main:
 main_loop:
 
 	JSR 	CheckKbdML15	; loads command to B
-	STAB	$700
+	STAB	HexDisplay
 	NOP
 	JSR 	Command
 	BRA 	main_loop
