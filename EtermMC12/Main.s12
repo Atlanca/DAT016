@@ -32,7 +32,8 @@ CommandExit:
 	RTS
 	
 JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
-		FDB	Step,Alarm,RefPos,SUB7
+		FDB	Step,DrillHole,RefPos,Auto
+		
 	USE	KeyboardML15.s12
 	USE	Subroutines.s12
 	USE	Delay.asm
