@@ -1,5 +1,7 @@
 ; USES REG. X & Y
-DELAY:		LDX	#DelayConst
+DELAY:		PSHX
+		PSHY
+		LDX	#DelayConst
 NEXT:		LEAX	-1,X
 		LDY	#100
 NEXT2:
@@ -9,5 +11,7 @@ NEXT2:
 				
 		CPX	#0
 		BNE	NEXT
+		PULY
+		PULX
 		RTS
 		
