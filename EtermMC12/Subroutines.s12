@@ -5,7 +5,7 @@ Outbyte:
 	RTS
 
 ;; B - tal som anger vilken bit som ska nollställas
-Outzero:
+Outzero: 
 	PSHA
 	PSHB
 	LDAA	#1
@@ -207,13 +207,18 @@ RefPos_Success:
 	RTS
 	
 	
+;Subroutine DoAuto	
+DoAuto:
+	LDX	#Pattern	; Load pointer to the pattern array of 
+	JSR	Auto
+	RTS
+	
 ;Subroutine Auto
 Auto:
 	JSR	RefPos
 	BITB	#$FF
 	BEQ	Auto_Exit
 	JSR	MotorStart
-	LDX	#Pattern	; Load pointer to the pattern array of 
 
 ContinueDrilling:
 	LDAB	,X		; Load current value
