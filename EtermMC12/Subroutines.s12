@@ -81,3 +81,17 @@ MotorStop:
 	MOVB	#1,OutPort
 	RTS
 	
+DrillDown:
+	PSHB
+	LDAB	#3
+	JSR	Outone
+	PULB
+	MOVB	#2,OutPort
+	RTS 
+DrillUp:
+	PSHB
+	LDAB 	#3
+	JSR	Outzero
+	PULB
+	MOVB 	#3,OutPort
+	RTS
