@@ -173,13 +173,13 @@ DrillHole:
 ; Move B=N steps
 ; Returns B = 1 if success, B = 0 otherwise
 ; A and B may change
-Nstep:	CMPA 	#0
+Nstep:	CMPB 	#0
 	BEQ	Nstep_Success	; if B=0, iteration done
-	DECA
+	DECB
 	
-	PSHA
+	PSHB
 	JSR	Step
-	PULA
+	PULB
 	
 	CMPB	#0
 	BNE	Nstep		; if B!=0 (not failure), continue loop
@@ -206,14 +206,18 @@ RefPos_Success:
 	LDAB	#1
 	RTS
 	
-	
+
+;Subroutine DoAuto	
+DoAuto:
+	LDX	#Pattern	; Load pointer to the pattern array of 
+	JSR	Auto
+	RTS
 ;Subroutine Auto
 Auto:
 	JSR	RefPos
 	BITB	#$FF
 	BEQ	Auto_Exit
-	JSR	MotorStart
-	LDX	#Pattern	; Load pointer to the pattern array of 
+	JSR	MotorStart	
 
 ContinueDrilling:
 	LDAB	,X		; Load current value

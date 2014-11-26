@@ -32,7 +32,7 @@ CommandExit:
 	RTS
 	
 JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
-		FDB	Step,DrillHole,RefPos,Auto
+		FDB	Step,DrillHole,RefPos,DoAuto
 		
 	USE	KeyboardML15.s12
 	
