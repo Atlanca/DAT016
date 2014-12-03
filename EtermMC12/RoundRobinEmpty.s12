@@ -1,0 +1,129 @@
+;
+;	EXEMPEL
+;	RoundRobin.s12
+;
+HexDisplay	EQU	$600
+
+CODE		EQU	$1000
+TopOfStack0	EQU	$2D00
+TopOfStack1	EQU	$2E00
+TopOfStack2	EQU	$2F00
+TopOfStack3	EQU	$3000
+
+
+	ORG	CODE
+; ======== Init sekvens ========
+	MOVB	#$FF,HexDisplay
+
+	LDAB	#0
+	STAB	ProcNR
+	
+; Starta Process 0
+	LDS	SPProc0
+	RTI
+
+
+; ======== "Processer" ========
+CodeP0:
+	MOVB	#0,HexDisplay
+	BRA	CodeP0
+	
+CodeP1:
+	MOVB	#1,HexDisplay
+	BRA	CodeP1
+	
+CodeP2:
+	MOVB	#2,HexDisplay
+	BRA	CodeP2
+	
+CodeP3:
+	MOVB	#3,HexDisplay
+	BRA	CodeP3
+
+	
+	
+; ========= Avbrottsrutin ========
+RTIHandler:
+; Ladda addressen till variabeln som håller 
+;  första SP (X)
+	LDX	SPProc0
+
+; Beräkna offset till den variabel som 
+;  vi ska spara nuvarande SP till (A)
+	LDAA	ProcNR
+	LSLA			; multiplikation med två
+
+; Beräkna offset till den variabel som 
+;  vi ska läsa nästa SP från (B)
+	LDAB 	ProcNR
+	INCB			; next process id
+	LSLB			; multiply with 
+	CMPB	#4		; If current process is 3, next process is 0
+	BLO	RTIHandler1	; Branch R<M (B<4)(correct ProcNR)
+	CLRB			; Set process nr 0
+
+; Spara nuvarande SP, läs in ny SP (SP)	
+RTIHandler1: 
+	STS	A,X
+	LEAS	B,X
+	
+; Kör igång nästa process
+	RTI
+
+
+	
+; ========= Data ========
+
+; process nummer och stack pekare
+ProcNR	RMB	1
+
+SPProc0	FDB	TopOfStack0
+SPProc1	FDB	TopOfStack1
+SPProc2	FDB	TopOfStack2
+SPProc3	FDB	TopOfStack3
+
+
+; Process 0	
+	ORG	TopOfStack0
+	
+	FCB	$C0	; Initialt CCR
+	FCB	1	; Initialt B
+	FCB	2	; Initialt A			
+	FDB	3	; Initialt X
+	FDB	4	; Initialt Y
+	FDB	CodeP0	; Initialt PC
+
+; Process 1	
+	ORG	TopOfStack1
+	
+	FCB	$C0	; Initialt CCR
+	FCB	0	; Initialt B
+	FCB	0	; Initialt A			
+	FDB	0	; Initialt X
+	FDB	0	; Initialt Y
+	FDB	CodeP1	; Initialt PC
+
+; Process 2	
+	ORG	TopOfStack2
+
+	FCB	$C0	; Initialt CCR
+	FCB	0	; Initialt B
+	FCB	0	; Initialt A			
+	FDB	0	; Initialt X
+	FDB	0	; Initialt Y
+	FDB	CodeP2	; Initialt PC
+
+; Process 3	
+	ORG	TopOfStack3
+	
+	FCB	$C0	; Initialt CCR
+	FCB	0	; Initialt B
+	FCB	0	; Initialt A			
+	FDB	0	; Initialt X
+	FDB	0	; Initialt Y
+	FDB	CodeP3	; Initialt PC
+
+; Statisk initiering av avbrottsvektor
+	ORG	$3FF2
+	FDB	RTIHandler
+	
