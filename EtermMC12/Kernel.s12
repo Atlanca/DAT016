@@ -1,10 +1,95 @@
+TopOfStack0	EQU	$2D00
+TopOfStack1	EQU	$2E00
+
+#define RUNFAST
+#define SIMULATOR
+	
 	ORG	$1000
 
 Kernel:
 ;Initieringskod
+	LDX	#RTIHandler
+	STX 	$3FF2
+	
+	; Reset proced id 
+	LDAB	#0
+	STAB	ProcNR
+	
+	; Starta Process 0
+	LDS	SPProc0
+	CLI
+	RTI
+	
+; ========= Avbrottsrutin ========
+RTIHandler:
+; Ladda addressen till variabeln som håller 
+;  första SP (X)
+	LDX	#SPProc0
 
-;data area
+; Beräkna offset till den variabel som 
+;  vi ska spara nuvarande SP till (A)
+	LDAA	ProcNR
+	LSLA			; multiplikation med två
+	
+; Beräkna offset till den variabel som 
+;  vi ska läsa nästa SP från (B)
+	LDAB 	ProcNR
+	INCB			; next process id
+	;ANDB	#%00000011
+	CMPB	#2		; If current process is 3, next process is 0
+	BLO	RTIHandler1	; Branch R<M (B<4)(correct ProcNR)
+	CLRB			; Set process nr 0
 
-;filer
+; Spara nuvarande SP, läs in ny SP (SP)	
+RTIHandler1: 
+	STAB	ProcNR
+	LSLB			; multiply with 2
+	STS	A,X
+	LDS	B,X
+	
+; Kör igång nästa process
+	RTI
+	
+	
+; ======== "Processer" ========
+CodeP0:	;MOVB	#0,$700
+	JSR 	main
+	BRA	CodeP0
+	
+CodeP1:	;MOVB	#1,$700
+	JSR	DISPLAY
+	BRA	CodeP1
+	
+	
+;-------- data area --------
+
+; process nummer och stack pekare
+ProcNR	RMB	1
+
+; Stackpekartabell
+SPProc0	FDB	TopOfStack0
+SPProc1	FDB	TopOfStack1
+
+; Process 0	
+	ORG	TopOfStack0
+	
+	FCB	$C0	; Initialt CCR
+	FCB	0	; Initialt B
+	FCB	0	; Initialt A			
+	FDB	0	; Initialt X
+	FDB	0	; Initialt Y
+	FDB	CodeP0	; Initialt PC
+
+; Process 1	
+	ORG	TopOfStack1
+	
+	FCB	$C0	; Initialt CCR
+	FCB	0	; Initialt B
+	FCB	0	; Initialt A			
+	FDB	0	; Initialt X
+	FDB	0	; Initialt Y
+	FDB	CodeP1	; Initialt PC
+
+;--------   filer   --------
 	USE	Drill.s12
 	USE	Display_ML5.s12
