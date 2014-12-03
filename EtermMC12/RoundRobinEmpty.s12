@@ -46,26 +46,28 @@ CodeP3:
 RTIHandler:
 ; Ladda addressen till variabeln som håller 
 ;  första SP (X)
-	LDX	SPProc0
+	LDX	#SPProc0
 
 ; Beräkna offset till den variabel som 
 ;  vi ska spara nuvarande SP till (A)
 	LDAA	ProcNR
 	LSLA			; multiplikation med två
-
+	
 ; Beräkna offset till den variabel som 
 ;  vi ska läsa nästa SP från (B)
 	LDAB 	ProcNR
 	INCB			; next process id
-	LSLB			; multiply with 
+	;ANDB	#%00000011
 	CMPB	#4		; If current process is 3, next process is 0
 	BLO	RTIHandler1	; Branch R<M (B<4)(correct ProcNR)
 	CLRB			; Set process nr 0
 
 ; Spara nuvarande SP, läs in ny SP (SP)	
 RTIHandler1: 
+	STAB	ProcNR
+	LSLB			; multiply with 2
 	STS	A,X
-	LEAS	B,X
+	LDS	B,X
 	
 ; Kör igång nästa process
 	RTI
