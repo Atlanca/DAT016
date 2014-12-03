@@ -1,0 +1,10 @@
+	ORG	$1000
+
+Kernel:
+;Initieringskod
+
+;data area
+
+;filer
+	USE	Drill.s12
+	USE	Display_ML5.s12

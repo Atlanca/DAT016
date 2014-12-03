@@ -1,0 +1,40 @@
+	USE	Labdefs.s12
+main:	
+	JSR	Initiate
+main_loop:
+
+	JSR 	CheckKbdML15	; loads command to B
+	STAB	HexDisplay
+	NOP
+	JSR 	Command
+	BRA 	main_loop
+	
+Initiate:
+	; Reset Drill: 
+	LDAB	#0
+	JSR	Outbyte
+	RTS
+	
+; Expects command id in B
+Command:
+	CMPB	#7
+	BHI	CommandExit
+	
+	LDX	#JUMPTAB
+	ASLB			; *2 eftersom pekare 2 bytes
+	LDX	B,X
+	JSR	,X
+CommandExit:	
+	RTS
+	
+JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
+		FDB	Step,DrillHole,RefPos,DoAuto
+		
+	USE	KeyboardML15.s12
+	
+	USE	Delay.asm
+	
+DCShadow	RMB 	1
+Pattern:	FCB	0,1,1,1,1,1,1,1,2,1,5,2,2,2,2,4,4,3,8,2,$FF
+
+	USE	Subroutines.s12
