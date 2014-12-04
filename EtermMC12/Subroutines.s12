@@ -89,6 +89,10 @@ DrillUp:
 	PSHB
 	LDAB 	#3
 	JSR	Outzero
+DrillUpWait:
+	LDAB	DrillStatus
+	BITB	#2
+	BEQ	DrillUpWait
 	PULB
 	RTS
 ;Subrutin Alarm
@@ -149,6 +153,7 @@ DDT_DelayLoop:
 	LDAA	DrillStatus
 	BITA	#4
 	BNE	DDT_success
+	JSR	DrillDown
 	DECB
 	CMPB	#0
 	BNE	DDT_DelayLoop

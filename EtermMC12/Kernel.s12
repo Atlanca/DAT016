@@ -1,9 +1,6 @@
 TopOfStack0	EQU	$2D00
 TopOfStack1	EQU	$2E00
 
-#define RUNFAST
-#define SIMULATOR
-	
 	ORG	$1000
 
 Kernel:
@@ -42,6 +39,8 @@ RTIHandler:
 
 ; Spara nuvarande SP, läs in ny SP (SP)	
 RTIHandler1: 
+	CLR	$DC2
+	CLR	$DC3
 	STAB	ProcNR
 	LSLB			; multiply with 2
 	STS	A,X
