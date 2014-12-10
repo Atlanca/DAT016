@@ -6,13 +6,13 @@
 QueuePtr new_queue(){
 	struct QueueElement *head;
 	head = createElement();
-	head->next = nullptr;
+	head->next = NULL;
 	head->prio = 100;
-	head->data = nullptr;
+	head->data = NULL;
 	return head;
 }
 void deleteQueue(QueuePtr q){
-	while(q->next != null){
+	while(q->next != NULL{
 		struct QueueElement *tmp;
 		tmp = q;
 		q = q->next;
@@ -24,7 +24,7 @@ void deleteQueue(QueuePtr q){
 
 int size(QueuePtr q){
 	int i;
-	for(i=1 ; q->next != null ; i++){
+	for(i=1 ; q->next != NULL ; i++){
 		q = q->next;
 	}
 	return i;
@@ -33,7 +33,7 @@ int size(QueuePtr q){
 void add(QueuePtr q, int prio, DataPtr d){
 	struct QueueElement *newElem;
 	
-	while(q->next != nullptr){
+	while(q->next != NULL){
 		if((q->next)->prio >= prio)){
 			q = q->next;
 			
