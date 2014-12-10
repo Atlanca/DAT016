@@ -5,3 +5,12 @@
 *.lst~
 *.asm~
 *.s12~
+Lab 4/Debug/
+.codelite/Lab 4.session
+.codelite/Lab 4.tags
+*workspace*
+*.codelite*
+Lab 4/Lab4.mk
+Lab 4/Lab4.project
+Lab 4/Lab4.txt
+Makefile
