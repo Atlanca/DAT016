@@ -3,6 +3,10 @@
 
 /* Implementera interface från queue.h här */
 
+struct QueueElement *createElement(){
+ return (struct QueueElement*)malloc(sizeof(struct QueueElement));
+}
+
 QueuePtr new_queue(){
 	struct QueueElement *head;
 	head = createElement();
@@ -11,7 +15,8 @@ QueuePtr new_queue(){
 	head->data = NULL;
 	return head;
 }
-void deleteQueue(QueuePtr q){
+
+void delete_queue(QueuePtr q){
 	while(q->next != NULL){
 		struct QueueElement *tmp;
 		tmp = q;
@@ -21,6 +26,11 @@ void deleteQueue(QueuePtr q){
 		free(q);
 }
 
+void clear(QueuePtr q){
+ struct QueueElement *next = q->next;
+ q->next = NULL;
+ delete_queue(next);
+}
 
 int size(QueuePtr q){
 	int i;
@@ -50,7 +60,7 @@ void add(QueuePtr q, int prio, DataPtr d){
 	}
 }
 DataPtr get_first(QueuePtr q){ // avläser första dataelementet 
-	return q->next;
+	return q->data;
 }
 
 void remove_first(QueuePtr q){ // tar bort första köelementet
