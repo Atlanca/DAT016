@@ -12,7 +12,7 @@ QueuePtr new_queue(){
 	return head;
 }
 void deleteQueue(QueuePtr q){
-	while(q->next != NULL{
+	while(q->next != NULL){
 		struct QueueElement *tmp;
 		tmp = q;
 		q = q->next;
@@ -34,7 +34,7 @@ void add(QueuePtr q, int prio, DataPtr d){
 	struct QueueElement *newElem;
 	
 	while(q->next != NULL){
-		if((q->next)->prio >= prio)){
+		if((q->next)->prio >= prio){
 			q = q->next;
 			
 		}else{
@@ -47,5 +47,17 @@ void add(QueuePtr q, int prio, DataPtr d){
 			break;
 		}
 	
+	}
+}
+DataPtr get_first(QueuePtr q){ // avläser första dataelementet 
+	return q->next;
+}
+
+void remove_first(QueuePtr q){ // tar bort första köelementet
+	if(q->next != NULL){
+		struct QueueElement *first;
+		first = q->next;
+		q->next = q->next->next;
+		free(first);
 	}
 }
