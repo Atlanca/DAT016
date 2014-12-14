@@ -1,5 +1,6 @@
 	segment 	init
 	export 		_exit
+	import		_main
 	function	__start, __start_end
 	
 __start
