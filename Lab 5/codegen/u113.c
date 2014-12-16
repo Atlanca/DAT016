@@ -49,4 +49,23 @@ void u117(){
 }
 
 
+// U118
+void do_nothing();
+void u118(){
+	do_nothing();
+}
 
+// U119
+int do_something();
+void u119(){
+	int result;
+	result = do_something();
+}
+
+
+// U120
+int max(int n1, int n2);
+void u120(){
+	int result,low,high;
+	result = max(low, high);
+}
