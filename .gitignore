@@ -12,3 +12,6 @@
 *.project
 *.txt
 Makefile
+*.m12
+*.S
+*.o12
