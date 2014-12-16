@@ -69,3 +69,27 @@ void u120(){
 	int result,low,high;
 	result = max(low, high);
 }
+
+// U121
+/*	
+	LEAS	-66,SP 		; 2*32+2
+	
+	LDD	#32
+	PSHD
+	LDD	4,SP		; 2+2
+	PSHD
+	JSR	_scalar
+	LEAS	4,SP
+	
+	LEAS	66,SP
+*/
+#define PVECSIZE	32
+int scalar(int *pvec, int size);
+void u121(){
+	int pvec[PVECSIZE];
+	int size;
+	size = scalar(pvec, PVECSIZE);
+}
+
+
+
