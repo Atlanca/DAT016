@@ -4,7 +4,7 @@
 #include "ports.h"
 
 char DCShadow = 0;
-int pattern[]={0,1,1,1,1,1,1,1,2,1,2,2,2,2,4,4,3,8,2,0xff};
+int pattern[]={0,1,1,1,1,1,1,1,2,1,5,2,2,2,2,4,4,3,8,2,0xff};
 
 
 void Hold(int time){
