@@ -2,12 +2,17 @@
 #include "drill.h"
 #include "keyboardML15.h"
 
+//#define AUTO_ONLY
+
 void main(){
 
+#ifdef AUTO_ONLY
+	DoAuto()
+#else
 	while(1){
 		unsigned char key = get_key();
 		
-		switch(){
+		switch(key){
 		    case 0:
 			MotorStart();
 		       break;
@@ -30,8 +35,9 @@ void main(){
 			RefPos();
 		       break;
 		    case 7:
-			Outzero();
+			DoAuto();
 		       break;
 		}
 	}
+#endif
 }
