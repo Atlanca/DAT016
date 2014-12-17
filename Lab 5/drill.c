@@ -122,9 +122,6 @@ int DrillHole(void){
 
 int RefPos(void){
 	while(1){
-	   if(DRILL_STATUS && 1)
-	      return 1;
-	
 
 	if(DRILL_STATUS & 0x1)
 	return 1;
