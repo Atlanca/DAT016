@@ -9,10 +9,7 @@ void display_digits(char *vec){
 	DISPLAY_MODE_ML15 = 1;
 	DISPLAY_DATA_ML15 = 0x90; 
 	DISPLAY_MODE_ML15 = 0;
-	
-	
-	//*((port8ptr) 0x9C3) = 1;
-	
+		
 	// print digits
 	
 	for(i=0; i<6; i++){

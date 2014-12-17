@@ -21,7 +21,21 @@ typedef unsigned long  *port32ptr;
 #define DISPLAY_MODE_ML15_ADDRESS 0x9C3
 #define DISPLAY_MODE_ML15 *((port8ptr) DISPLAY_MODE_ML15_ADDRESS)
 
+// Klocka
+// Basadress 0x34
+#define  IVEC *((unsigned char *)0x3B) 
+#define  CRG_INIT *((unsigned char *)0x38)
+#define  CRG_FLAG *((unsigned char *)0x37)
 
+#define  IVEC_ADDR 0x3ff0
+
+#ifdef SIMULATOR
+   #define INTERRUPT_TIME_RATIO 0
+#else
+   #define INTERRUPT_TIME_RATIO 0x010
+#endif
+
+// Drill
 #ifdef SIMULATOR
    #define DRILLSTATUS_ADDRESS 0x401
 #else
