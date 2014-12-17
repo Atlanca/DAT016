@@ -7,7 +7,7 @@ char DCShadow = 0;
 int pattern[]={0,1,1,1,1,1,1,1,2,1,2,2,2,2,4,4,3,8,2,0xff};
 
 
-void hold(time_type time){
+void Hold(time_type time){
 	while(time != 0){
 	unsigned long count = 10;
 	while(count > 0){
@@ -18,17 +18,23 @@ void hold(time_type time){
 }
 
 void Outzero(int bit){
+	if(bit > 7)
+	   return; // Not a valid bit
+	   
 	unsigned char bittest = 1; 
 	bittest = bittest << bit;
 	DCShadow = DCShadow & ~bittest;
-	DRILL_STATUS = DCShadow;
+	DRILL_CONTROL= DCShadow;
 }
 
 void Outone(int bit){
+	if(bit > 7)
+	   return; // Not a valid bit
+	   
 	unsigned char bittest = 1;
 	bittest = bittest << bit;
 	DCShadow = DCShadow | bittest;
-	DRILL_STATUS = DCShadow;
+	DRILL_CONTROL = DCShadow;
 	}
 
 void MotorStart(void){
@@ -36,7 +42,7 @@ void MotorStart(void){
 	time_type time = 10;
 	if((DCShadow & (0x4))==0){
 	Outone(2);
-	hold(time);
+	Hold(time);
 	}
 }
 
@@ -56,10 +62,11 @@ void Alarm(int count){
 	time_type time = 5;
 	while(count > 0){
 	Outone(4);
-	hold(2*time);
+	Hold(2*time);
 	Outzero(4);
-	hold(time);
+	Hold(time);
 	count--;
+
 	}
 }
 
@@ -68,10 +75,11 @@ int Step(){
 	if((DRILL_STATUS & 0x2)==1){
 	Outone(0);
 	Outzero(0);
-	hold(time);
+	Hold(time);
+
 	}else{
-	Alarm(3);
-	return 0;
+	   Alarm(3);
+	   return 0;
 	}
 	return 1;
 }
@@ -80,9 +88,9 @@ int Nstep(int step){
 	while(step > 0){
 	step--;
 
-		if(!Step()){
-		return 0;
-		}
+	   if(!Step()){
+	      return 0;
+	   }
 	
 	}
 	return 1;
@@ -92,12 +100,14 @@ int DrillDownTest(){
 int retry = 20;
 	while(retry >= 0){
 //If drill down return 1
+
 	time_type time = 3;
 	if((DRILL_STATUS & 0x4)==1){
 	return 1;
 	}
-	hold(time);
+	Hold(time);
 	retry--;
+
 	}
 //If still not down alarm
 	Alarm(2);
@@ -114,42 +124,46 @@ int DrillHole(void){
 
 int RefPos(void){
 	while(1){
+	   if(DRILL_STATUS && 1)
+	      return 1;
 	
+
 	if(DRILL_STATUS & 0x1)
 	return 1;
 	
 	if(Step()==0)
 	return 0;
 	
+
 	}
 }
 
 void DoAuto(void){
 int i = 0;
 	if(RefPos() == 0){
-	MotorStop();
-	return;
+	   MotorStop();
+	   return;
 	}
 	MotorStart();
 	
 	while(pattern[i] != 0xff){
 	
-	if(Nstep(pattern[i]) == 0){
-	MotorStop();
-	return;
-	}
+	   if(Nstep(pattern[i]) == 0){
+	      MotorStop();
+	      return;
+	   }
 	
-	if(DrillHole() == 0){
-	MotorStop();
-	return;
-	}
+	   if(DrillHole() == 0){
+	      MotorStop();
+	      return;
+	   }
 	
-	i++;
+	   i++;
 	
 	}
 
 	
 	
-	}
+}
 	
 	

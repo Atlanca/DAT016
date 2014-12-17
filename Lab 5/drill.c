@@ -19,6 +19,8 @@ void Hold(time_type time){
 
 void Outzero(int bit){
 	unsigned char bittest = 1; 
+		if(bit > 7)
+	   return; // Not a valid bit
 	bittest = bittest << bit;
 	DCShadow = DCShadow & ~bittest;
 	DRILL_CONTROL= DCShadow;
@@ -26,6 +28,8 @@ void Outzero(int bit){
 
 void Outone(int bit){
 	unsigned char bittest = 1;
+	if(bit > 7)
+	   return; // Not a valid bit
 	bittest = bittest << bit;
 	DCShadow = DCShadow | bittest;
 	DRILL_CONTROL = DCShadow;
@@ -60,6 +64,7 @@ void Alarm(int count){
 	Outzero(4);
 	Hold(time);
 	count--;
+
 	}
 }
 
@@ -69,9 +74,10 @@ int Step(){
 	Outone(0);
 	Outzero(0);
 	Hold(time);
+
 	}else{
-	Alarm(3);
-	return 0;
+	   Alarm(3);
+	   return 0;
 	}
 	return 1;
 }
@@ -80,9 +86,9 @@ int Nstep(int step){
 	while(step > 0){
 	step--;
 
-		if(!Step()){
-		return 0;
-		}
+	   if(!Step()){
+	      return 0;
+	   }
 	
 	}
 	return 1;
@@ -92,12 +98,14 @@ int DrillDownTest(){
 int retry = 20;
 	while(retry >= 0){
 //If drill down return 1
+
 	time_type time = 3;
 	if((DRILL_STATUS & 0x4)==1){
 	return 1;
 	}
 	Hold(time);
 	retry--;
+
 	}
 //If still not down alarm
 	Alarm(2);
@@ -114,42 +122,46 @@ int DrillHole(void){
 
 int RefPos(void){
 	while(1){
+	   if(DRILL_STATUS && 1)
+	      return 1;
 	
+
 	if(DRILL_STATUS & 0x1)
 	return 1;
 	
 	if(Step()==0)
 	return 0;
 	
+
 	}
 }
 
 void DoAuto(void){
 int i = 0;
 	if(RefPos() == 0){
-	MotorStop();
-	return;
+	   MotorStop();
+	   return;
 	}
 	MotorStart();
 	
 	while(pattern[i] != 0xff){
 	
-	if(Nstep(pattern[i]) == 0){
-	MotorStop();
-	return;
-	}
+	   if(Nstep(pattern[i]) == 0){
+	      MotorStop();
+	      return;
+	   }
 	
-	if(DrillHole() == 0){
-	MotorStop();
-	return;
-	}
+	   if(DrillHole() == 0){
+	      MotorStop();
+	      return;
+	   }
 	
-	i++;
+	   i++;
 	
 	}
 
 	
 	
-	}
+}
 	
 	
