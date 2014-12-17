@@ -7,9 +7,9 @@ char DCShadow = 0;
 int pattern[]={0,1,1,1,1,1,1,1,2,1,2,2,2,2,4,4,3,8,2,0xff};
 
 
-void hold(time_type time){
+void Hold(time_type time){
 	while(time != 0){
-	unsigned long count = 1000;
+	unsigned long count = 10;
 	while(count > 0){
 	count--;
 	}
@@ -18,63 +18,63 @@ void hold(time_type time){
 }
 
 void Outzero(int bit){
-	if(bit > 7)
-	   return; // Not a valid bit
-	   
 	unsigned char bittest = 1; 
+		if(bit > 7)
+	   return; // Not a valid bit
 	bittest = bittest << bit;
 	DCShadow = DCShadow & ~bittest;
-	DRILL_STATUS = DCShadow;
+	DRILL_CONTROL= DCShadow;
 }
 
 void Outone(int bit){
+	unsigned char bittest = 1;
 	if(bit > 7)
 	   return; // Not a valid bit
-	   
-	unsigned char bittest = 1;
 	bittest = bittest << bit;
 	DCShadow = DCShadow | bittest;
-	DRILL_STATUS = DCShadow;
+	DRILL_CONTROL = DCShadow;
 	}
 
 void MotorStart(void){
 //Kolla om Drill control har startat
 	time_type time = 10;
-	if((DCShadow && (4))==0){
-	Outone(4);
-	hold(time);
+	if((DCShadow & (0x4))==0){
+	Outone(2);
+	Hold(time);
 	}
 }
 
 void MotorStop(void){
-	Outzero(4);
+	Outzero(2);
 }
 
 void DrillDown(void){
-	Outone(8);
+	Outone(3);
 }
 
 void DrillUp(void){
-	Outzero(8);
+	Outzero(3);
 }
 
 void Alarm(int count){
 	time_type time = 5;
 	while(count > 0){
-	   Outone(4);
-	   hold(2*time);
-	   Outzero(4);
-	   hold(time);
-	   count--;
+	Outone(4);
+	Hold(2*time);
+	Outzero(4);
+	Hold(time);
+	count--;
+
 	}
 }
 
 int Step(){
 	time_type time = 5;
-	if((DRILL_STATUS && 2)==1){
-	   Outone(1);
-	   Outzero(1);
-	   hold(time);
+	if((DRILL_STATUS & 0x2)==1){
+	Outone(0);
+	Outzero(0);
+	Hold(time);
+
 	}else{
 	   Alarm(3);
 	   return 0;
@@ -98,12 +98,14 @@ int DrillDownTest(){
 int retry = 20;
 	while(retry >= 0){
 //If drill down return 1
-	   time_type time = 3;
-	   if((DRILL_STATUS && 4)==1){
-	      return 1;
-	   }
-	   hold(time);
-	   retry--;
+
+	time_type time = 3;
+	if((DRILL_STATUS & 0x4)==1){
+	return 1;
+	}
+	Hold(time);
+	retry--;
+
 	}
 //If still not down alarm
 	Alarm(2);
@@ -120,11 +122,14 @@ int DrillHole(void){
 
 int RefPos(void){
 	while(1){
-	   if(DRILL_STATUS && 1)
-	      return 1;
+
+	if(DRILL_STATUS & 0x1)
+	return 1;
 	
-	   if(Step()==0)
-	      return 0;
+	if(Step()==0)
+	return 0;
+	
+
 	}
 }
 
