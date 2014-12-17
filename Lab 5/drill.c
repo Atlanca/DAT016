@@ -7,9 +7,9 @@ char DCShadow = 0;
 int pattern[]={0,1,1,1,1,1,1,1,2,1,2,2,2,2,4,4,3,8,2,0xff};
 
 
-void Hold(time_type time){
+void Hold(int time){
 	while(time != 0){
-	unsigned long count = 10;
+	int count = 1;
 	while(count > 0){
 	count--;
 	}
@@ -37,7 +37,7 @@ void Outone(int bit){
 
 void MotorStart(void){
 //Kolla om Drill control har startat
-	time_type time = 10;
+	int time = 10;
 	if((DCShadow & (0x4))==0){
 	Outone(2);
 	Hold(time);
@@ -58,7 +58,7 @@ void DrillUp(void){
 }
 
 void Alarm(int count){
-	time_type time = 5;
+	int time = 5;
 	while(count > 0){
 	Outone(4);
 	Hold(2*time);
@@ -70,8 +70,8 @@ void Alarm(int count){
 }
 
 int Step(){
-	time_type time = 5;
-	if((DRILL_STATUS & 0x2)==1){
+	int time = 5;
+	if((DRILL_STATUS & 0x2)){
 	Outone(0);
 	Outzero(0);
 	Hold(time);
@@ -100,8 +100,8 @@ int retry = 20;
 	while(retry >= 0){
 //If drill down return 1
 
-	time_type time = 3;
-	if((DRILL_STATUS & 0x4)==1){
+	int time = 3;
+	if((DRILL_STATUS & 0x4)){
 	return 1;
 	}
 	Hold(time);
@@ -123,8 +123,8 @@ int DrillHole(void){
 
 int RefPos(void){
 	while(1){
-
-	if(DRILL_STATUS & 0x1)
+	int a = DRILL_STATUS;
+	if((DRILL_STATUS & 1))
 	return 1;
 	
 	if(Step()==0)
