@@ -61,23 +61,23 @@ void DrillUp(void){
 void Alarm(int count){
 	time_type time = 5;
 	while(count > 0){
-	Outone(16);
-	hold(2*time);
-	Outzero(16);
-	hold(time);
-	count--;
+	   Outone(4);
+	   hold(2*time);
+	   Outzero(4);
+	   hold(time);
+	   count--;
 	}
 }
 
 int Step(){
 	time_type time = 5;
 	if((DRILL_STATUS && 2)==1){
-	Outone(1);
-	Outzero(1);
-	hold(time);
+	   Outone(1);
+	   Outzero(1);
+	   hold(time);
 	}else{
-	Alarm(3);
-	return 0;
+	   Alarm(3);
+	   return 0;
 	}
 	return 1;
 }
@@ -86,9 +86,9 @@ int Nstep(int step){
 	while(step > 0){
 	step--;
 
-		if(!Step()){
-		return 0;
-		}
+	   if(!Step()){
+	      return 0;
+	   }
 	
 	}
 	return 1;
@@ -98,12 +98,12 @@ int DrillDownTest(){
 int retry = 20;
 	while(retry >= 0){
 //If drill down return 1
-	time_type time = 3;
-	if((DRILL_STATUS && 4)==1){
-	return 1;
-	}
-	hold(time);
-	retry--;
+	   time_type time = 3;
+	   if((DRILL_STATUS && 4)==1){
+	      return 1;
+	   }
+	   hold(time);
+	   retry--;
 	}
 //If still not down alarm
 	Alarm(2);
@@ -120,42 +120,40 @@ int DrillHole(void){
 
 int RefPos(void){
 	while(1){
+	   if(DRILL_STATUS && 1)
+	      return 1;
 	
-	if(DRILL_STATUS && 1)
-	return 1;
-	
-	if(Step()==0)
-	return 0;
-	
+	   if(Step()==0)
+	      return 0;
 	}
 }
 
 void DoAuto(void){
 int i = 0;
 	if(RefPos() == 0){
-	MotorStop();
-	return;
+	   MotorStop();
+	   return;
 	}
 	MotorStart();
 	
 	while(pattern[i] != 0xff){
 	
-	if(Nstep(pattern[i]) == 0){
-	MotorStop();
-	return;
-	}
+	   if(Nstep(pattern[i]) == 0){
+	      MotorStop();
+	      return;
+	   }
 	
-	if(DrillHole() == 0){
-	MotorStop();
-	return;
-	}
+	   if(DrillHole() == 0){
+	      MotorStop();
+	      return;
+	   }
 	
-	i++;
+	   i++;
 	
 	}
 
 	
 	
-	}
+}
 	
 	
