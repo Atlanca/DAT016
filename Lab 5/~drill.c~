@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include "clock.h"
-#include "ports.h"
 
 #define DRILL_CONTROL_ADR	0x400
-#define DRILL_CONTROL *((port8ptr)DRILL_CONTROL_ADR)
+#define DRILL_CONTROL *((int*)DRILL_CONTROL_ADR)
 
 #define DRILL_STATUS_ADR	0x401
-#define DRILL_STATUS	*((port8ptr)DRILL_STATUS_ADR)
+#define DRILL_STATUS	*((*int)DRILL_STATUS_ADR)
 
-char DCShadow = 0;
+char DCShadow;
 
 void Outzero(int bit){
 	unsigned char bittest = 1; 
@@ -44,40 +43,27 @@ void DrillUp(void){
 	Outzero(8);
 }
 
+int Nstep(int step){
+int i;
+	if((DRILL_STATUS && 2) == 1){
+		while(step > 0){
+		Outone(1);
+		Outzero(1);
+		Hold(10);
+		step--;
+		}
+	}else{
+		Alarm(3);
+}
+
 void Alarm(int count){
-	while(count > 0){
+	for(; count > 0; count--){
 	Outone(16);
 	Hold(10);
 	Outzero(16);
 	Hold(5);
-	count--;
 	}
 }
-
-int Step(){
-	if((DRILL_STATUS && 2)==1){
-	Outone(1);
-	Outzero(1);
-	Hold(5);
-	}else{
-	Alarm(3);
-	return 0;
-	}
-	return 1;
-}
-
-int Nstep(int step){
-	while(step > 0){
-	step--;
-
-		if(!Step()){
-		return 0;
-		}
-	
-	}
-	return 1;
-}
-
 
 void DrillHole(void){
 
