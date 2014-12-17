@@ -12,4 +12,5 @@ typedef unsigned long  *port32ptr;
 #ifdef SIMULATOR
    #define DRILLSTATUS_ADDRESS 0x401
 #else
-   #define DRILLSTATUS_ADDRESS
+   #define DRILLSTATUS_ADDRESS 0x600
+#endif
