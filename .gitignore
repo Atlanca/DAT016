@@ -15,3 +15,4 @@ Makefile
 *.m12
 *.S
 *.o12
+*.map
