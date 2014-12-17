@@ -72,6 +72,7 @@ void Alarm(int count){
 int Step(){
 	int time = 5;
 	if((DRILL_STATUS & 0x2)){
+	Outone(1); // set direction
 	Outone(0);
 	Hold(3);
 	Outzero(0);
