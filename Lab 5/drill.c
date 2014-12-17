@@ -54,6 +54,7 @@ void DrillDown(void){
 
 void DrillUp(void){
 	Outzero(3);
+	while(DCShadow & 2 == 0); // ensure that drill goes all the way up
 }
 
 void Alarm(int count){
