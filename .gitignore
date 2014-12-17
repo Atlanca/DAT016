@@ -16,3 +16,5 @@ Makefile
 *.S
 *.o12
 *.map
+
+*~
