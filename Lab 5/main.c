@@ -5,8 +5,6 @@
 //#define AUTO_ONLY
 
 void main(){
-DoAuto();
-/*
 #ifdef AUTO_ONLY
 	DoAuto()
 #else
@@ -41,5 +39,5 @@ DoAuto();
 		}
 	}
 #endif
-*/
+
 }
