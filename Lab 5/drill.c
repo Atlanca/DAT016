@@ -18,6 +18,9 @@ void hold(time_type time){
 }
 
 void Outzero(int bit){
+	if(bit > 7)
+	   return; // Not a valid bit
+	   
 	unsigned char bittest = 1; 
 	bittest = bittest << bit;
 	DCShadow = DCShadow & ~bittest;
@@ -25,6 +28,9 @@ void Outzero(int bit){
 }
 
 void Outone(int bit){
+	if(bit > 7)
+	   return; // Not a valid bit
+	   
 	unsigned char bittest = 1;
 	bittest = bittest << bit;
 	DCShadow = DCShadow | bittest;
