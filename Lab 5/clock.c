@@ -15,7 +15,7 @@ void kvittera_crg(){
 
 void init_clock(){
 	// sätt avbrottsperiod
-	IVEC = 0x10;
+	IVEC = 0x49;
 	
 	// Aktivera CRG
 	CRG_INIT = 0x80;

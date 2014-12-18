@@ -6,17 +6,6 @@
 char DCShadow = 0;
 int pattern[]={0,1,1,1,1,1,1,1,2,1,5,2,2,2,2,4,4,3,8,2,0xff};
 
-
-void Hold(int time){
-	while(time != 0){
-	int count = 100;
-	while(count > 0){
-	count--;
-	}
-	time--;
-	}
-}
-
 void Outzero(int bit){
 	unsigned char bittest = 1; 
 		if(bit > 7)
@@ -37,10 +26,10 @@ void Outone(int bit){
 
 void MotorStart(void){
 //Kolla om Drill control har startat
-	int time = 10;
+	time_type time = 500;
 	if((DCShadow & (0x4))==0){
 	Outone(2);
-	Hold(time);
+	hold(time);
 	}
 }
 
@@ -53,30 +42,32 @@ void DrillDown(void){
 }
 
 void DrillUp(void){
+	time_type time = 300;
 	Outzero(3);
-	while(DCShadow & 2 == 0); // ensure that drill goes all the way up
-}
+	while((DRILL_STATUS & 2) == 0); // ensure that drill goes all the way up
+	//hold(time);
+	}
 
 void Alarm(int count){
-	int time = 5;
+	time_type time = 500;
 	while(count > 0){
 	Outone(4);
-	Hold(2*time);
+	hold(2*time);
 	Outzero(4);
-	Hold(time);
+	hold(time);
 	count--;
 
 	}
 }
 
 int Step(){
-	int time = 5;
+	time_type time = 500;
 	if((DRILL_STATUS & 0x2)){
 	Outone(1); // set direction
 	Outone(0);
-	Hold(3);
+	hold(time);
 	Outzero(0);
-	Hold(time);
+	hold(time);
 
 	}else{
 	   Alarm(3);
@@ -102,11 +93,11 @@ int retry = 20;
 	while(retry >= 0){
 //If drill down return 1
 
-	int time = 3;
+	time_type time = 300;
 	if((DRILL_STATUS & 0x4)){
 	return 1;
 	}
-	Hold(time);
+	hold(time);
 	retry--;
 
 	}

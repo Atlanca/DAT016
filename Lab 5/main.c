@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include "drill.h"
 #include "keyboardML15.h"
+#include "clock.h"
 
 //#define AUTO_ONLY
 
 void main(){
+init_clock();
 #ifdef AUTO_ONLY
 	DoAuto()
 #else

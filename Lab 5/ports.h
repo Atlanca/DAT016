@@ -39,6 +39,6 @@ typedef unsigned long  *port32ptr;
 #ifdef SIMULATOR
    #define INTERRUPT_TIME_RATIO 0
 #else
-   #define INTERRUPT_TIME_RATIO 160
+   #define INTERRUPT_TIME_RATIO 20
 #endif
 
