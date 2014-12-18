@@ -15,10 +15,10 @@ typedef unsigned long  *port32ptr;
 #define KEYBOARD_ML15 *((port8ptr) KEYBOARD_ML15_ADDRESS)
 
 // Display
-#define DISPLAY_DATA_ML15_ADDRESS 0x9C4
+#define DISPLAY_DATA_ML15_ADDRESS 0x9C3
 #define DISPLAY_DATA_ML15 *((port8ptr) DISPLAY_DATA_ML15_ADDRESS)
 
-#define DISPLAY_MODE_ML15_ADDRESS 0x9C3
+#define DISPLAY_MODE_ML15_ADDRESS 0x9C2
 #define DISPLAY_MODE_ML15 *((port8ptr) DISPLAY_MODE_ML15_ADDRESS)
 
 // Drill
@@ -39,6 +39,6 @@ typedef unsigned long  *port32ptr;
 #ifdef SIMULATOR
    #define INTERRUPT_TIME_RATIO 0
 #else
-   #define INTERRUPT_TIME_RATIO 0x010
+   #define INTERRUPT_TIME_RATIO 160
 #endif
 

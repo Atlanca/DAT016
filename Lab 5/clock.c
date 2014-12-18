@@ -3,7 +3,9 @@
 
 typedef void (*void_void_fp)(void);
 
-extern void_void_fp inter_routine_asm;
+//extern void_void_fp inter_routine_asm;
+
+void inter_routine_asm();
 
 static volatile time_type current_time = 0;
 
@@ -27,6 +29,7 @@ void init_clock(){
 
 void clock_inter(){
 	current_time += INTERRUPT_TIME_RATIO;
+	kvittera_crg();
 }
 
 time_type get_time(){
